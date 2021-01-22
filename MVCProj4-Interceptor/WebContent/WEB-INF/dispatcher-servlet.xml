@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+		<!-- Handler mapping class cfg -->
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<property name="mappings">
+	<props>
+	<prop key="welcome.htm">hpg</prop>
+	<prop key="message.htm">wmc</prop>
+	</props>
+	</property>
+	<property name="interceptors">
+	<array>
+	<ref bean="tc"/>
+	<ref bean="bc"/>
+	</array>
+	</property>
+	</bean>
+	<!-- interceptor cfg -->
+	<bean id="tc" class="com.vd.interceptor.TimeCheck"/>
+	<bean id="bc" class="com.vd.interceptor.BrowserCheck"/>
+	<!-- Controller cfg -->
+	<bean id="hpg" class="com.vd.controller.HomePageGenerator1"/>
+	<bean id="wmc" class="com.vd.controller.WishMessageController">
+	<constructor-arg ref="wishmsg"/>
+	</bean>
+	<!-- View Resolver cfg -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/pages/"/>
+	<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
