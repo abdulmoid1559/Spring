@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- configure target class -->
+	<bean id="service" class="com.vd.service.BankServiceImpl" />
+	<!-- cfg advice class -->
+	<bean id="pfAdvice" class="com.vd.advice.PerformanceAdvice" />
+	<bean id="cacheAdvice" class="com.vd.advice.CachAdvice" />
+	<bean id="logAdvice" class="com.vd.advice.LoggingAdvice"/>
+	
+	<!-- cfg pointcut -->
+	<!-- <bean id="pp" class="com.vd.pointcut.PerformancePointcut"> -->
+	<!-- <property name="methodName" value="simpleInterest" /> -->
+	<!-- <property name="className" -->
+	<!-- value="com.vd.service.BankServiceImpl" /> -->
+	<!-- </bean> -->
+	<bean id="pointCut"
+		class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedName" value="compoundInterest" />
+	</bean>
+	<bean id="cachePC"
+		class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<array>
+				<value>simpleInterest</value>
+				<value>compoundInterest</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="logPC" class="com.vd.pointcut.CommonLogingPointcut">
+	<property name="methodName" value="compoundInterest"/>
+	<property name="className" value="com.vd.service.BankService"/>
+	</bean>
+	<!-- cfg Advisor -->
+	<bean id="advr1"
+		class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="pfAdvice" />
+		<property name="pointcut" ref="pointCut"></property>
+	</bean>
+	<bean id="advr2"
+		class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="cacheAdvice" />
+		<property name="pointcut" ref="cachePC" />
+	</bean>
+	<bean id="advr3"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice" ref="pfAdvice" />
+		<property name="mappedName" value="simpleInterest" />
+	</bean>
+	<bean id="advr4" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+	<property name="advice" ref="logAdvice"/>
+	<property name="pointcut" ref="logPC"/>
+	</bean>
+	<!-- cfg proxy factory class -->
+	<bean id="fproxy"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="service" />
+		<property name="interceptorNames">
+			<array>
+				<!-- <value>advr1</value> -->
+				<value>advr2</value>
+				<value>advr3</value>
+				<value>advr4</value>
+			</array>
+		</property>
+	</bean>
+</beans>

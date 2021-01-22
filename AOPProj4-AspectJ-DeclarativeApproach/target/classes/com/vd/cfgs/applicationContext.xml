@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<!-- CFG aspect -->
+	<bean id="pfAspect" class="com.vd.aspect.PerformanceMonitoring" />
+	<bean id="cacheAspect" class="com.vd.aspect.CacheAspect"/>
+	<bean id="logAspect" class="com.vd.aspect.LoggingAspect"></bean>
+	<!-- Cfg Target -->
+	<bean id="service"
+		class="com.vd.service.ECommerceStoreServiceImpl" />
+	<aop:config proxy-target-class="true">
+		<!--cfg Pointcut  -->
+		<aop:pointcut expression="execution(* com.vd.service.ECommerceStoreServiceImpl.*(..))" id="pct2"/>
+		
+		
+		<aop:pointcut
+			expression="execution(* com.vd.service.ECommerceStoreServiceImpl.*(..))"
+			id="pct1" />
+			<!-- confoigure Aspect as advice on target method -->
+			<aop:aspect ref="cacheAspect">
+			<aop:around method="caching" pointcut-ref="pct2"/>
+			</aop:aspect>
+			
+			<aop:aspect ref="logAspect">
+			<aop:around method="logging" pointcut="execution(float com.vd.service.ECommerceStoreServiceImpl.totalBillAmt(..))"/>
+			</aop:aspect>
+			
+		<aop:aspect ref="pfAspect">
+			<aop:around method="monitor" pointcut-ref="pct1"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

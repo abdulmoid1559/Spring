@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+		<bean id="service" class="com.vd.service.ShoppingServiceImpl"/>
+		<bean id="cupGenrate" class="com.vd.aspect.CuponGenratorAspect"/>
+		
+		<aop:config>
+		<aop:aspect ref="cupGenrate">
+		<aop:after-returning method="generate" pointcut="execution(double com.vd.service.ShoppingServiceImpl.shopping(..))"
+		returning="bAmt"/>
+		</aop:aspect>
+		</aop:config>
+</beans>

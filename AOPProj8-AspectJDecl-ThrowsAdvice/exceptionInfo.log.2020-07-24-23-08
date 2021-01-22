@@ -1,0 +1,2 @@
+2020-07-24-main-0-FATAL-com.vd.aspect.ExceptionLoggerAspect:com.vd.customexception.InternalProblem: Internal problem try againException raised in double com.vd.service.ShoppingStore.shopping(String,double)
+  

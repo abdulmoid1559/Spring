@@ -1,0 +1,2 @@
+2020-07-29-main-1-FATAL-com.vd.aspect.ExceptionLoggerAspect:java.lang.IllegalArgumentException: Prices and items must not be emptyException raised in double com.vd.service.ShoppingStoreImpl.shopping(String,double)
+  

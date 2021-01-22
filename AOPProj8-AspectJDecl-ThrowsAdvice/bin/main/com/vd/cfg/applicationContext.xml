@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+<!-- Target class cfg-->
+	<bean id="store" class="com.vd.service.ShoppingStoreImpl"/>
+	<!-- Aspect class cfg -->
+	<bean id="exceptionAspect" class="com.vd.aspect.ExceptionLoggerAspect"/>
+	<bean id="graphAspect" class="com.vd.aspect.ExceptionGrapher"/>
+	<aop:config>
+	<aop:pointcut expression="execution(double com.vd.service.ShoppingStoreImpl.shopping(..))" id="pct1"/>
+	<aop:aspect ref="exceptionAspect" order="1">
+		<aop:after-throwing method="exceptionLogger"  pointcut-ref="pct1" throwing="ex"/>
+	</aop:aspect>
+	<aop:aspect ref="graphAspect" order="2">
+	<aop:after-throwing method="graphing" pointcut-ref="pct1" throwing="iae"/>
+	</aop:aspect>
+	</aop:config>
+</beans>

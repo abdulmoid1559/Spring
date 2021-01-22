@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+<!-- configure target class -->
+<bean id="service" class="com.vd.service.BankInterestService"/>
+<!-- cfg advice class -->
+<bean id="pfAdvice" class="com.vd.advice.PerformanceAdvice"/>
+<!-- cfg proxy factory class -->
+<bean id="fproxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+<property name="target" ref="service"/>
+<property name="interceptorNames">
+<array>
+<!-- <value>pfAdvice</value> -->
+</array>
+</property>
+</bean>
+</beans>
