@@ -1,0 +1,7 @@
+package com.vd.service;
+
+import java.util.Set;
+
+public interface LocaleService {
+	public Set<String> showCountries();
+}

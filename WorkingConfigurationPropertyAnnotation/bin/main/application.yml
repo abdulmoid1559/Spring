@@ -1,0 +1,17 @@
+per:
+  info:
+    address:
+    - pune
+    - Hyd
+    - Mumbai
+    mobileNo:
+      home: 9808877640
+      office: 87446538332
+      personal: 9087654356
+    nickName:
+    - voilent
+    - developer
+    nickNames:
+    - boss
+    pid: 123
+    pname: Moid
